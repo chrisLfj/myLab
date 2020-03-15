@@ -6,7 +6,7 @@
 2.  安装完成后，需要设置username和useremail，这一步是因为git是分布式版本控制系统，所以每个机器都必须自报家门
 git config --global user.name "Your name"
 git config --global user.email "email@example.com"
-###创建版本库，往版本库中提交一个文件
+### 创建版本库，往版本库中提交一个文件
 版本库repository，这个目录下的所有文件都会被git管理和跟踪起来。    
 通过git命令可以非常方便的创建版本库，首先在一个合适的地方准备一个空目录，在该目录下输入命令：  
 git init  
@@ -14,7 +14,7 @@ git init
 创建和提交一个文件  
 git add file1.txt   将文件存入storge区  
 git commit -m "add file1.txt"   将文件提交md
-###使用github托管代码，以及如何从本地往github上的个人仓库提交代码
+### 使用github托管代码，以及如何从本地往github上的个人仓库提交代码
 1. 首先要有一个github账户，登陆到github上或者使用githubDesktop(GitHub的桌面版)，都可以方便的在github上创建一个repository
 2. github上创建一个repository之后这个仓库还是空的，这时将本地仓库与远程仓库进行关联有两种方式  
 第一种，在github上使用clone功能，会得到一个用于clone的URL，例如：git@github.com:chrisLfj/mylab.git，后在本地创建一个对应的空文件夹mylab，
