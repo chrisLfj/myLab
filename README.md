@@ -16,7 +16,7 @@ git config --global user.email "email@example.com"
 git init  
 版本库就创建好了，会发现当前目录下多了一个.git目录，不要乱改它。  
 创建和提交一个文件  
-git add file1.txt   将文件存入storge区  
+git add file1.txt   将文件存入storage区  
 git commit -m "add file1.txt"   将文件提交md
 ### 使用github托管代码，以及如何从本地往github上的个人仓库提交代码
 1. 首先要有一个github账户，登陆到github上或者使用githubDesktop(GitHub的桌面版)，都可以方便的在github上创建一个repository
