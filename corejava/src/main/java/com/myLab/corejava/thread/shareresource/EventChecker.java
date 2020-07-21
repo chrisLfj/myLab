@@ -17,7 +17,7 @@ public class EventChecker implements Runnable {
 
     @Override
     public void run() {
-        //如果generator的iscanceled方法一直返回true，那么就会永远循环下去
+        //如果generator的iscanceled方法一直返回false，那么就会永远循环下去
         while(!generator.isCanceled()){
             int val = generator.next();
             System.out.println(val);
@@ -32,6 +32,7 @@ public class EventChecker implements Runnable {
     public static void test(IntGenerator g, int count){
         ExecutorService exec = Executors.newCachedThreadPool();
         for(int i = 0; i < count; i++){
+
             exec.execute(new EventChecker(g, i));
         }
         exec.shutdown();

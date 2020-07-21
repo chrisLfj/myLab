@@ -11,7 +11,7 @@ public class SleepingTask extends LiftOff {
         try {
             while(countDown-- > 0){
                 System.out.println(status());
-                //sleep方法可以使当前线程阻塞，线程控制器可以切换线程
+                //sleep方法可以使当前线程阻塞，放弃cpu，线程控制器可以切换线程，在加锁场景下，sleep方法不会放弃锁
                 TimeUnit.MILLISECONDS.sleep(100);
             }
         } catch (InterruptedException e) {
