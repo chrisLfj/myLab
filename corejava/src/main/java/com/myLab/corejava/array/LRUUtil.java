@@ -2,6 +2,7 @@ package com.myLab.corejava.array;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 实现了LRU算法的工具类，使用LRU算法的本质是利用有限资源来实现快速的数据访问。
@@ -27,7 +28,7 @@ public class LRUUtil {
 
     private int currentSize;
     private int capcity;//总容量
-    private HashMap<String, Node> caches;//存放所有的node节点
+    private ConcurrentHashMap<String, Node> caches;//存放所有的node节点
     private Node first;//双向链表的头节点
     private Node last;//双向链表的尾节点
 
@@ -38,14 +39,14 @@ public class LRUUtil {
     public LRUUtil(int capcity) {
         this.capcity = capcity;
         this.currentSize = 0;
-        caches = new HashMap<String, Node>(capcity);
+        caches = new ConcurrentHashMap<String, Node>(capcity);
     }
 
     public Node get(String key){
         Node cacheNode = caches.get(key);
         if(cacheNode == null){
             if(caches.size() == capcity){
-                removeTail(last);//删除尾节点
+                removeTail();//删除尾节点
             }
             cacheNode = createNode(key);//创建一个node
             moveToHead(cacheNode);//将创建的新node插入链表头部
@@ -60,7 +61,7 @@ public class LRUUtil {
             return;//如果正好是头节点，那就什么也不做直接返回
         }
         if(last == cacheNode){
-            removeTail(last);//如果正好是尾节点，那就调用删除尾节点方法，然后再插入到头节点
+            removeTail();//如果正好是尾节点，那就调用删除尾节点方法，然后再插入到头节点
             cacheNode.pre = null;
             cacheNode.next = null;
             moveToHead(cacheNode);
@@ -82,13 +83,13 @@ public class LRUUtil {
         return;
     }
 
-    private void removeTail(Node last) {
-        Node node = last;//创建一个临时节点引用原尾节点
-        this.last = last.pre;//将尾节点指针指向的原尾节点的pre节点
-        this.last.next = null;//新的尾节点的next节点置为null
-        caches.remove(last.key);//HashMap中删除原尾节点
-        node.pre = null;//原尾节点的pre，next都要置为null
-        node.next = null;
+    private void removeTail() {
+        Node tmpNode = last;//创建一个临时节点引用原尾节点
+        last = last.pre;//将尾节点指针指向的原尾节点的pre节点
+        last.next = null;//新的尾节点的next节点置为null
+        caches.remove(tmpNode.key);//HashMap中删除原尾节点
+        tmpNode.pre = null;//原尾节点的pre，next都要置为null，方便回收
+        tmpNode.next = null;
         return;
     }
 
@@ -101,9 +102,9 @@ public class LRUUtil {
             last = cacheNode;
             return;
         }
-        cacheNode.next = first;
+        cacheNode.next = first;//如果first不为空，原头节点将变成第二个节点
         first.pre = cacheNode;
-        first = cacheNode;
+        first = cacheNode;//将新头节点指针赋值给first
         return;
     }
 
@@ -145,10 +146,12 @@ public class LRUUtil {
     }
 
     public static void main(String[] args) {
-        LRUUtil lruUtil = new LRUUtil(100);
+        LRUUtil lruUtil = new LRUUtil(4);
         lruUtil.get("key1");
         lruUtil.get("key2");
         lruUtil.get("key3");
+        lruUtil.get("key4");
+        lruUtil.get("key5");
         lruUtil.get("key1");
 
         for(Map.Entry<String, Node> it : lruUtil.caches.entrySet()){
