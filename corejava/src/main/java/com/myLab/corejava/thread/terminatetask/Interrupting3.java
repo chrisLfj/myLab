@@ -33,11 +33,11 @@ public class Interrupting3 {
         //-----------第一段示例代码结束----------
 
         //-----------第二段示例代码开始----------
-//        ExecutorService exec = Executors.newCachedThreadPool();
-//        exec.execute(new Counter());
-//        TimeUnit.MILLISECONDS.sleep(10);
-//        System.out.println("try to interrupt ");
-//        exec.shutdownNow();
+        ExecutorService exec = Executors.newCachedThreadPool();
+        exec.execute(new Counter());
+        TimeUnit.MILLISECONDS.sleep(10);
+        System.out.println("try to interrupt ");
+        exec.shutdownNow();
         //-----------第二段示例代码结束----------
 
         //-----------第三段示例代码开始----------
