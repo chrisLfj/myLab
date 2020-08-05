@@ -3,7 +3,6 @@ package com.myLab.server;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
@@ -30,11 +29,13 @@ public class BIOSocketServer implements Runnable{
         Socket socket = null;
         try {
             //accept方法也是一个阻塞方法，直到获取到一个客户端连接时才会继续往下运行
-            //下面这段程序使用了while循环，一开始程序阻塞在accept方法这里，当接收到一个客户端请求时返回一个socket，然后进入循环内的逻辑。之后再回到accept方法这里阻塞住，等待下一个连接到来
+            //一开始程序阻塞在accept方法这里，当接收到一个客户端请求时返回一个socket，然后进入循环内的逻辑。之后再回到accept方法这里阻塞住，等待下一个连接到来
             //这样一直循环着等待接收连接
             while((socket = serverSocket.accept()) != null){
                 System.out.println("client connected, ip:" + socket.getRemoteSocketAddress());
-                threadPool.execute(new Processor(socket));
+                threadPool.execute(new BIOSocketProcessor(socket));
+                //坑3：在没加这句代码之前，发现processor线程没有启动成功(run方法没有调起)，而当前线程又回到了accept方法阻塞等待，就导致processor线程一直无法启动
+                //这里睡一会儿，让上面的processor能够顺利启动
                 Thread.sleep(10);
             }
         } catch (IOException | InterruptedException e) {
@@ -54,52 +55,16 @@ public class BIOSocketServer implements Runnable{
         threadPool.shutdown();
     }
 
-    class Processor implements Runnable{
-
-        private Socket socket = null;
-
-        public Processor(Socket socket) {
-            this.socket = socket;
-        }
-
-        @Override
-        public void run() {
-            BufferedReader br = null;
-            PrintWriter pw = null;
-            try {
-                br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                pw = new PrintWriter(socket.getOutputStream(), true);
-                //处理socket的processor线程可以被从外部在中断，只要还没有被中断它就会一直等待读取从socket对端传来的信息
-                //这里加入一个外部中断跳出的逻辑，意味着只要从外部针对这些线程发起中断指令，就可以让这些socket关闭，可以更加灵活的来管理这些socket
-                while(!Thread.interrupted()){
-                    String input = br.readLine();
-                    System.out.println(String.format("%s say %s", socket.getRemoteSocketAddress(), input));
-                    pw.println(input);
-                    if("bye".equals(input))
-                        break;
-                }
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                StreamUtil.close(br);
-                StreamUtil.close(pw);
-                StreamUtil.close(socket);
-            }
-        }
-    }
-
     public static void main(String[] args) {
         BIOSocketServer socketServer = new BIOSocketServer();
         BufferedReader br = null;
         try {
             socketServer.start();
-
             System.out.println("Enter 'exit' to exit");
             br = new BufferedReader(new InputStreamReader(System.in));
             String cmd = null;
             //readLine方法是阻塞方法，程序运行到这里的时候会阻塞当前线程，不会往下运行，直到读到一行数据(以换行符为边界确定一行数据)才会继续往下执行
-            //readLine方法只会一次读取一行数据，不会自动继续读取，因此这里使用了while循环，可以让程序读完一行之后再回来读取下一行输入，直到读到“exit”才推出循环
+            //readLine方法只会一次读取一行数据，不会自动继续读取，因此这里使用了while循环，可以让程序读完一行之后再回来读取下一行输入，直到读到“exit”才退出循环
             while((cmd = br.readLine()) != null){
                 if("exit".equalsIgnoreCase(cmd)){
                     break;
