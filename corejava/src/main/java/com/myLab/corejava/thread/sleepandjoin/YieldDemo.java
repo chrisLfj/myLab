@@ -5,7 +5,7 @@ public class YieldDemo implements Runnable{
     public synchronized void run() {
         while(true){
             System.out.println(Thread.currentThread().getName() + "进来啦");
-            Thread.yield();//线程会让出cpu，进入runnable状态，重新参与竞争，但是线程事先拿到了锁，调用yield方法不会释放锁
+            Thread.yield();//线程会让出cpu，进入runnable状态，重新等待分片CPU时间片，但是线程事先拿到了锁，调用yield方法不会释放锁
             System.out.println(Thread.currentThread().getName() + "yield");
         }
     }
@@ -15,6 +15,7 @@ public class YieldDemo implements Runnable{
         new Thread(yd, "thread1").start();
         new Thread(yd, "thread2").start();
         Thread.sleep(10000);
+
         System.out.println("Aborting with System.exit(0)");
         System.exit(0);
     }

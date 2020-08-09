@@ -12,6 +12,7 @@ public class FixedThreadPool {
         ExecutorService exec = Executors.newFixedThreadPool(4);
         for(int i = 0; i < 5; i++){
             exec.execute(new LiftOff());
+//            exec.submit()
         }
         //shutdown()方法的调用可以防止新任务被提交给这个Excutor
         exec.shutdown();

@@ -11,6 +11,11 @@ public class SafeShareUseSync implements Runnable{
     }
 
     public synchronized void run() {//被
+//        try {
+//            Thread.sleep(60000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
         for(int i = 0; i < 5; i++){
             System.out.println(Thread.currentThread().getName() + ":" + (count++));
             try {

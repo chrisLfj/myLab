@@ -5,7 +5,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class AtomicIntegerTest implements Runnable{
-    private static AtomicInteger atomicInteger = new AtomicInteger(200);
+    private static AtomicInteger atomicInteger = new AtomicInteger(100);
     private static int id = 0;
 
     @Override
@@ -18,7 +18,7 @@ public class AtomicIntegerTest implements Runnable{
 
     public static void main(String[] args) {
         ExecutorService exec = Executors.newCachedThreadPool();
-        for(int i = 0; i < 200; i++){
+        for(int i = 0; i < 100; i++){
             AtomicIntegerTest at = new AtomicIntegerTest();
             exec.execute(at);
         }

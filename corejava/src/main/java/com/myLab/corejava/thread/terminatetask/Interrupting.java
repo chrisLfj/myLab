@@ -16,7 +16,7 @@ class SleepBlocked implements Runnable{
     @Override
     public void run() {
         try {
-            TimeUnit.MILLISECONDS.sleep(300);//因sleep一段时间而Blocked
+            TimeUnit.MILLISECONDS.sleep(300);//因sleep一段时间而timed_waiting
         } catch (InterruptedException e) {
             System.out.println("InterruptedException");
         }

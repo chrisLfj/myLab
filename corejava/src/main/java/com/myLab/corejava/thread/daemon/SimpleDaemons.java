@@ -15,8 +15,8 @@ public class SimpleDaemons implements Runnable {
             while(true){
                 //通过调整这个timeout，可以看出一些差别
                 //如果在这里加上一段代码来启动其它线程，那这些线程也会自动变为后台线程
-                TimeUnit.MILLISECONDS.sleep(170);
-                System.out.println(Thread.currentThread() + " " + this);
+                TimeUnit.MILLISECONDS.sleep(1700);
+                System.out.println(Thread.currentThread().getName() + " " + this);
             }
         } catch (InterruptedException e) {
             System.out.println("sleep() interrupted");

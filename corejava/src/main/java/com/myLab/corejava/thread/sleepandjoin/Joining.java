@@ -15,6 +15,7 @@ class Sleeper extends Thread{
     }
 
     public void run(){
+        System.out.println(getName() + " started");
         try {
             sleep(duration);
         } catch (InterruptedException e) {
@@ -34,8 +35,10 @@ class Joiner extends Thread{
     }
 
     public void run(){
+        System.out.println(getName() + " started");
         try {
             sleeper.join();
+//            sleeper.join(30000);
         } catch (InterruptedException e) {
             System.out.println("interrupted");
         }
@@ -45,10 +48,18 @@ class Joiner extends Thread{
 
 public class Joining {
     public static void main(String[] args) {
-        Sleeper sleepy = new Sleeper("sleepy", 1500),
-                grumpy = new Sleeper("grumpy", 1500);
-        Joiner dopey = new Joiner("dopey", sleepy),
-                doc = new Joiner("doc", grumpy);
-        grumpy.interrupt();//sleeper被中断或正常结束时，joiner将一同结束
+//        Sleeper sleepy = new Sleeper("sleepy", 15000),
+//                grumpy = new Sleeper("grumpy", 15000);
+//        Joiner dopey = new Joiner("dopey", sleepy),
+//                doc = new Joiner("doc", grumpy);
+//        grumpy.interrupt();//sleeper被中断或正常结束时，joiner将一同结束
+        Sleeper sleepey = new Sleeper("sleepy", 30000);
+        Joiner dopey = new Joiner("dopey", sleepey);
     }
 }
+
+/*
+1.sleep()会让线程放弃CPU，不会让线程放弃锁，它会让线程进入TIMED_WAITING状态
+2.dopey线程调用sleepy.join()后，dopey线程处于WAITING状态，它会等待sleepy线程结束，而sleepy线程由于调用了sleep()方法，处于TIMED_WAITING状态
+3.如果dopey线程调用sleepy.join(…)方法，dopey会进入TIMED_WAITING状态，它会在超时时间内等待sleepy线程结束，如果超时了sleepy线程还未结束，dopey不会继续等待，它会继续运行
+ */
