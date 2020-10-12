@@ -55,8 +55,26 @@ public class UnsafeDemo {
         System.out.println(user);
     }
 
+    public void handleArray() {
+        Integer[] intArray = new Integer[10];
+        String[] strArray = new String[10];
+        int intBaseOffset = unsafe.arrayBaseOffset(intArray.getClass());
+        int intIndexScale = unsafe.arrayIndexScale(intArray.getClass());
+        int strBaseOffset = unsafe.arrayBaseOffset(strArray.getClass());
+        int strIndexScale = unsafe.arrayIndexScale(strArray.getClass());
+        intArray[0] = 10; intArray[1] = 30; intArray[2] = 0; intArray[3] = 70; intArray[4] = 50;
+        strArray[0] = "hello"; strArray[1] = "this is a long sentence"; strArray[2] = "ok"; strArray[3] = "i love you"; strArray[4] = "it is simple";
+
+        for(int i = 0; i < 10; i++){
+            unsafe.putInt(intArray, (intBaseOffset + i*intIndexScale), i);
+        }
+        for(int i: intArray)
+            System.out.println(i);
+    }
+
     public static void main(String[] args) throws NoSuchFieldException {
         UnsafeDemo unsafeDemo = new UnsafeDemo();
         unsafeDemo.handleObjectField();
+        unsafeDemo.handleArray();
     }
 }
