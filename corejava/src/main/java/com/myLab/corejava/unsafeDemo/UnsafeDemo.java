@@ -22,7 +22,7 @@ public class UnsafeDemo {
         //原因是Unsafe类的getUnsafe()方法中会要求当前类加载器为SystemDomainLoader，如果不是这个加载器的话就会抛出SecurityException异常
         //而我们一般的程序java类，类加载器基本都是AppClassLoader，扩展包的类加载器一般是ExtClassLoader，所以这里直接想要得到unsafe实例的话就会抛出SecurityException
         //如何判断类的加载器是哪个呢，比如我们随便new一个Object实例，然后通过调用该object的getClass().getClassLoader()方法返回的就是该类的加载器，如果返回的是null，就表明该类的加载器是SystemDomainLoader
-//        unsafe = sun.misc.Unsafe.getUnsafe();
+        //unsafe = sun.misc.Unsafe.getUnsafe();
 
         //所以这里可以通过反射方式来获取Unsafe实例
         try {
