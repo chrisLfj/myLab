@@ -3,6 +3,11 @@ package com.myLab.corejava.lab;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
+/*
+写了一个测试类，来测试触发fullGC时，是否会回收掉直接内存，
+-Xms1g -Xmx1g -Xmn200m -XX:+UseConcMarkSweepGC -XX:CMSInitiatingOccupancyFraction=60 -XX:+PrintGCDetails -XX:+PrintGCDateStamps
+按这个来配置JVM，程序运行时调用几次catchSomeObjToOld方法之后会触发majorGC，以此来观测系统内存占用中的500M是否会被释放
+ */
 public class DirectMemoryTest {
     public void genSomeDirectMemory(){
         try {
