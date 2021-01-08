@@ -1,15 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE generatorConfiguration PUBLIC
         "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <generatorConfiguration>
-    <context id="simple" targetRuntime="MyBatis3Simple">
-        <jdbcConnection driverClass="org.hsqldb.jdbcDriver"
-                        connectionURL="jdbc:hsqldb:mem:aname" />
+    <!-- 在多数情况下，MBG需要依赖generator.xml文件来驱动，这个xm'l文件主要是告诉MBG几件事情：
+    1.如何连接数据库
+    2.哪些对象需要生成，如何生成这些对象
+    3.哪些数据库表需要被用于生成对象
+    -->
+    <!-- 一些配置信息可以单独配置在外部的文件中，然后在此引入 -->
+    <properties resource="db.properties"/>
+    <!-- 指定特定数据库的jdbc驱动jar包的位置 -->
+    <classPathEntry location="${db.driverLocation}"/>
+    <!--
+    context元素至少要有一个，可以有多个
+    targetRuntime的配置来决定风格，不同的风格决定了不同的代码产生效果，有的是生成一个单独对象对应一张数据库表，而有的是生成多个对象对应一张数据库表。
+    它的可选项如下:
+        MyBatis3DynamicSql，生成java code，但是不生成xml，而是只提供注解的方式，并且没有单独的主键key对象，这个风格的特点就是生成代码量极少，给开发带来更多灵活性
+        MyBatis3Kotlin，生成Kotlin code，这里不做过多阐述
+        MyBatis3，默认值，生成xml文件和java code，生成的代码量比较多，一般与下面defaultModeltype属性配合使用
+        MyBatis3Simple，简洁的代码生成方式，也会生成xml文件，但是不会生成“by example”或者“selective”这样的方法，用flat方式来生成代码
+    defaultModelType，这个属性很关键，也是用于指定MBG生成对象的风格，但是如果targetRuntime配置成MyBatis3DynamicSql，MyBatis3Kotlin，MyBatis3Simple的时候，
+    风格已经确定了，这时这个属性就是无效的，因此defaultModelType一般跟Mybatis3来配合使用。
+    它的可选项如下：
+        conditional，默认值，跟hierarchical的区别是，如果一个数据表只有一个主键字段，那它不会单独生成一个主键对象
+        flat，一张表对应生成一个对象，该对象包含了其中所有的字段，比较简单实用，推荐使用
+        hierarchical，如果表中有主键字段，那么会为其单独生成一个主键对象，BLOB字段也会单独生成一个对象，其它字段也会放到单独对象中，这些对象之间通过继承关系来关联
+    -->
+    <context id="simple" targetRuntime="MyBatis3">
 
-        <javaModelGenerator targetPackage="example.model" targetProject="src/main/java"/>
+        <jdbcConnection
+                driverClass="${db.driverClass}"
+                connectionURL="${db.url}"
+                userId="${db.username}"
+                password="${db.password}"/>
 
-        <javaClientGenerator type="ANNOTATEDMAPPER" targetPackage="example.mapper" targetProject="src/main/java"/>
+        <!-- java模型生成器，用来生成含有主键key的类，记录类以及查询example类
+         targetPackage，指定生成的对象所在的包名
+         targetProject，指定该项目下所在的路径
+         -->
+        <javaModelGenerator targetPackage="com.mylab.entity" targetProject="src/main/java">
+            <!-- 是否允许在targetPackage的基础上再生成子包，即targetPackage.schemaName.tableName -->
+            <property name="enableSubPackages" value="false"/>
+            <!-- 是否添加构造函数 -->
+            <property name="constructorBased" value="true"/>
+            <!-- 是否对类CHAR类型的列的数据进行trim操作 -->
+            <property name="trimStrings" value="true"/>
+            <!-- 建立的Model对象是否 不可改变  即生成的Model对象不会有 setter方法，只有构造方法 -->
+            <property name="immutable" value="false"/>
+            <!-- 设置一个根对象，即基类-->
+            <property name="rootClass" value="com.mylab.entity.BaseEntity"/>
+        </javaModelGenerator>
 
-        <table tableName="FooTable" />
+        <!-- Mapper映射文件生成器 -->
+        <sqlMapGenerator targetPackage="com.mylab.dao" targetProject="src/main/resources">
+            <!--是否允许子包，即targetPackage.schemaName.tableName-->
+            <property name="enableSubPackages" value="false"/>
+        </sqlMapGenerator>
+
+        <!-- 对于mybatis来说，即生成Mapper接口类
+        targetPackage/targetProject:同javaModelGenerator
+            type：选择怎么生成mapper接口（在MyBatis3/MyBatis3Simple下）：
+                1，ANNOTATEDMAPPER：会生成使用Mapper接口+Annotation的方式创建（SQL生成在annotation中），
+                不会生成对应的XML；
+                2，MIXEDMAPPER：使用混合配置，会生成Mapper接口，并适当添加合适的Annotation，但是XML会生成在XML中；
+                3，XMLMAPPER：会生成Mapper接口，接口完全依赖XML；
+            注意，如果context是MyBatis3Simple：只支持ANNOTATEDMAPPER和XMLMAPPER
+        -->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.mylab.dao" targetProject="src/main/java">
+            <!--是否允许子包，即targetPackage.schemaName.tableName-->
+            <property name="enableSubPackages" value="false"/>
+        </javaClientGenerator>
+
+        <!--
+        tableName:数据库表名
+            domainObjectName:实体类名
+            enableCountByExample（默认true）：MyBatis3Simple为false，
+                指定是否生成动态查询总条数语句（用于分页的总条数查询）；
+            enableUpdateByExample：（默认true）：MyBatis3Simple为false，
+                指定是否生成动态修改语句（只修改对象中不为空的属性）；
+            enableDeleteByExample：enableDeleteByExample（默认true）：
+                MyBatis3Simple为false，指定是否生成动态删除语句；
+            enableSelectByExample：enableSelectByExample（默认true）：
+                MyBatis3Simple为false，指定是否生成动态查询语句；
+            selectByExampleQueryId：
+            enableInsert（默认true）：指定是否生成insert语句；
+            enableSelectByPrimaryKey（默认true）：指定是否生成按照主键查询对象的语句（就是getById或get）；
+            enableUpdateByPrimaryKey（默认true）：指定是否生成按照主键修改对象的语句（即update)；
+            enableDeleteByPrimaryKey（默认true）：指定是否生成按照主键删除对象的语句（即delete）；
+            modelType：参考context元素的defaultModelType，相当于覆盖；
+        -->
+        <table tableName="client_user" domainObjectName="ClientUser"/>
     </context>
 </generatorConfiguration>
