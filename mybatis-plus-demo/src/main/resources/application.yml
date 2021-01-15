@@ -1,0 +1,11 @@
+server:
+  port:8080
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+#    schema: classpath:db/schema-h2.sql
+#    data: classpath:db/data-h2.sql
+    url: jdbc:mysql://127.0.0.1:3306/liufj?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: root
