@@ -37,6 +37,7 @@ public class MybatisPlusCodeGenerator {
     }
 
     public static void main(String[] args) {
+//        System.out.println(System.getProperty("user.dir"));
         // 代码生成器
         AutoGenerator mpg = new AutoGenerator();
 
