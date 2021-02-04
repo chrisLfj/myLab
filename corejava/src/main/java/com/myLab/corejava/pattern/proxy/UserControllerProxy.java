@@ -1,5 +1,10 @@
 package com.myLab.corejava.pattern.proxy;
 
+/**
+ * 静态代理
+ * 静态代理是指，代理类与被代理类都实现同样的接口，这样代理类就有着与被代理类相同的行为，代理类则可以根据不同的需求对被代理类的方法进行一些额外的增强
+ * 对于调用方来说他们直接使用的是代理类的方法。
+ */
 public class UserControllerProxy implements IUserController{
     //...省略其他属性和方法...
     private MetricsCollector metricsCollector; // 依赖注入
