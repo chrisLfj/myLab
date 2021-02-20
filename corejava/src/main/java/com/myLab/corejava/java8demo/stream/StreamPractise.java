@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * Stream API的几个小练习
@@ -77,6 +78,13 @@ public class StreamPractise {
                 .reduce((v1, v2) -> v1 + v2)
                 .get();
         System.out.println(result6);
+        //使用reduce这种归约方式求和，太晦涩，有没有更好的方式，比如调用一个sum方法来求和呢？
+        //java8使用特化流来解决这个问题，即IntStream，DoubleStream，LongStream，这些流的元素就是基本类型，省去了装箱/拆箱的损耗，对于求和，最大最小值，平均值等计算非常友好
+        int intResult6 = transactions.stream()
+                .filter(t -> t.getTrader().getCity().equalsIgnoreCase("Cambridge"))
+                .mapToInt(t -> t.getValue()) //需要从普通流转化成特化流
+                .sum();
+        System.out.println(intResult6);
 
         //练习7
         Transaction result7 = transactions.stream()
@@ -89,5 +97,10 @@ public class StreamPractise {
                 .min((t1, t2) -> t1.getValue() - t2.getValue())
                 .get();
         System.out.println(result8);
+
+        //特化流在一些数值计算场景中非常方便，比如下面这个例子是获取1到100(包含结束值100)范围内的偶数个数
+        IntStream evenNumbers = IntStream.rangeClosed(1, 100)
+                .filter(n -> n % 2 == 0);
+        System.out.println(evenNumbers.count());
     }
 }
