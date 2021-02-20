@@ -1,6 +1,7 @@
 package com.myLab.corejava.java8demo.stream;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,7 +34,8 @@ public class StreamPractise {
         //练习1
         List<Transaction> result1 = transactions.stream()
                 .filter(t -> t.getYear() == 2011)
-                .sorted((t1, t2) -> t1.getValue() - t2.getValue())
+                .sorted(Comparator.comparing(Transaction::getValue))
+//                .sorted(Comparator.comparing((t) -> t.getValue()))
                 .collect(Collectors.toList());
         System.out.println(result1);
 
@@ -41,7 +43,7 @@ public class StreamPractise {
         List<String> result2 = transactions.stream()
                 .map(t -> t.getTrader().getCity())
                 .distinct()
-                .collect(Collectors.toList());
+                .collect(Collectors.toList());//或者直接使用collect(toSet())这样就不需要distinct()了
         System.out.println(result2);
 
         //练习3
@@ -49,17 +51,18 @@ public class StreamPractise {
                 .filter(transaction -> transaction.getTrader().getCity().equals("Cambridge"))
                 .map(transaction -> transaction.getTrader())
                 .distinct()
-                .sorted((t1, t2) -> t1.getName().compareToIgnoreCase(t2.getName()))
+                .sorted(Comparator.comparing(Trader::getName))
+//                .sorted((t1, t2) -> t1.getName().compareToIgnoreCase(t2.getName()))
                 .collect(Collectors.toList());
         System.out.println(result3);
 
         //练习4
-        List<String> result4 = transactions.stream()
-                .map(t -> t.getTrader())
+        String result4 = transactions.stream()
+                .map(t -> t.getTrader().getName())
                 .distinct()
-                .sorted((t1, t2) -> t1.getName().compareToIgnoreCase(t2.getName()))
-                .map(t -> t.getName())
-                .collect(Collectors.toList());
+                .sorted()
+                .reduce("", (n1, n2) -> n1 + n2);//将多个流合并为一个流，逐个拼接每个名字，得到一个将所有名字连接起来的字符串，但是这样的方式不够高效，因为每次拼接时都需要建立一个新的String对象
+//                .collect(joining()) //可以使用这种更高效的方式来拼接，内部会用到StringBuilder
         System.out.println(result4);
 
         //练习5
