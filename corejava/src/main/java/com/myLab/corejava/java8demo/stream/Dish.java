@@ -39,5 +39,10 @@ public class Dish {
 
         Type(int code, String name) {
         }
+
+    }
+
+    public String toString() {
+        return name + "/" + vegetarian + "/" + calories + "/" + type.name();
     }
 }

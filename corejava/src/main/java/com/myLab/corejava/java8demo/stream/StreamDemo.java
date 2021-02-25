@@ -2,6 +2,7 @@ package com.myLab.corejava.java8demo.stream;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class StreamDemo {
@@ -50,5 +51,33 @@ public class StreamDemo {
                 .flatMap(Arrays::stream)//flatmap则会将多个单词多个流合并到一起成为一个流，最终也就是返回所有单词的字母数组
                 .distinct()
                 .collect(Collectors.toList());
+
+        //练习分组功能
+        //1.将食物按类型分组，通过一个function作为分组函数，对数据进行分组然后再进行归总
+        Map<Dish.Type, List<Dish>> dishesByType = dishes.stream().collect(Collectors.groupingBy(Dish::getType));
+        System.out.println(dishesByType);
+        //2.对于一些逻辑复杂的分组函数，可以灵活自定义实现如下，把食物按照“高低热量”来进行分组，不到400卡的是低热量食物，高于700卡的为高热量食物
+        Map<String, List<Dish>> dishesByCaloricLevel = dishes.stream().collect(Collectors.groupingBy(dish -> {
+            if (dish.getCalories() <= 400)
+                return "DIET";
+            else if (dish.getCalories() <= 700)
+                return "NORMAL";
+            else
+                return "FAT";
+        }));
+        System.out.println("复杂分组：" + dishesByCaloricLevel);
+        //3.多级分组，也就是基于一次分组的结果再次进行分组，比如先对食物进行类型分组，然后在对每个类型分组再次进行热量的高低分组
+        //groupingBy函数支持嵌套，即内层分组函数外再套外层分组函数，可以扩展任意层级的分组
+        Map<Dish.Type, Map<String, List<Dish>>> dishesByTypeCaloricLevel = dishes.stream().collect(
+                Collectors.groupingBy(Dish::getType, Collectors.groupingBy(dish -> {
+                    if (dish.getCalories() <= 400)
+                        return "DIET";
+                    else if (dish.getCalories() <= 700)
+                        return "NORMAL";
+                    else
+                        return "FAT";
+                }))
+        );
+        System.out.println("多级分组：" + dishesByTypeCaloricLevel);
     }
 }
