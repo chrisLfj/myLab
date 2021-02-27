@@ -1,4 +1,4 @@
-package com.myLab.corejava.java8demo;
+package com.myLab.corejava.java8demo.stream;
 
 import java.util.ArrayList;
 import java.util.List;

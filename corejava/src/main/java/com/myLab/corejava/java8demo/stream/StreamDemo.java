@@ -1,8 +1,6 @@
 package com.myLab.corejava.java8demo.stream;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class StreamDemo {
@@ -79,5 +77,10 @@ public class StreamDemo {
                 }))
         );
         System.out.println("多级分组：" + dishesByTypeCaloricLevel);
+        //4.对收集器返回的结果类型再进行一次转换
+        Map<Dish.Type, Dish> mostCaloricByType = dishes.stream().collect(
+                Collectors.groupingBy(Dish::getType, Collectors.collectingAndThen(
+                        Collectors.maxBy(Comparator.comparingInt(Dish::getCalories)),Optional::get
+                )));
     }
 }
