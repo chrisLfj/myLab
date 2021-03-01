@@ -32,6 +32,26 @@ public class Dish {
         return type;
     }
 
+    public String getCaloricLevel() {
+        if (this.getCalories() <= 400) {
+            return "DIET";
+        } else if (this.getCalories() <= 700) {
+            return "NORMAL";
+        } else {
+            return "FAT";
+        }
+    }
+
+    public static String getCaloricLevel1(Dish dish) {
+        if (dish.getCalories() <= 400) {
+            return "DIET";
+        } else if (dish.getCalories() <= 700) {
+            return "NORMAL";
+        } else {
+            return "FAT";
+        }
+    }
+
     enum Type {
         MEAT(1, "肉"),
         FISH(2, "鱼"),

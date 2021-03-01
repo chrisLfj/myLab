@@ -17,6 +17,16 @@ public class Trader {
         return city;
     }
 
+    public static String getCaloricLevel(Dish dish) {
+        if (dish.getCalories() <= 400) {
+            return "DIET";
+        } else if (dish.getCalories() <= 700) {
+            return "NORMAL";
+        } else {
+            return "FAT";
+        }
+    }
+
     public String toString(){
         return "Trader:"+this.name + " in " + this.city;
     }

@@ -63,7 +63,13 @@ public class StreamDemo {
             else
                 return "FAT";
         }));
-        System.out.println("复杂分组：" + dishesByCaloricLevel);
+        System.out.println("复杂分组0：" + dishesByCaloricLevel);
+        //也可以将上述代码中的根据卡路里范围来分组的逻辑写在一个方法中，然后通过方法引用来实现，这样代码可读性更好
+        dishesByCaloricLevel = dishes.stream().collect(Collectors.groupingBy(Dish::getCaloricLevel));//根据传入的dish实例来进行方法引用
+        System.out.println("复杂分组1：" + dishesByCaloricLevel);
+        //由这两种方法引用的写法来仔细体会一下被应用的方法与对应函数式接口中定义的方法有什么关联性
+        dishesByCaloricLevel = dishes.stream().collect(Collectors.groupingBy(Trader::getCaloricLevel));//根据某一个类来进行方法应用，这时引用的方法需要是静态方法
+        System.out.println("复杂分组2：" + dishesByCaloricLevel);
         //3.多级分组，也就是基于一次分组的结果再次进行分组，比如先对食物进行类型分组，然后在对每个类型分组再次进行热量的高低分组
         //groupingBy函数支持嵌套，即内层分组函数外再套外层分组函数，可以扩展任意层级的分组
         Map<Dish.Type, Map<String, List<Dish>>> dishesByTypeCaloricLevel = dishes.stream().collect(
