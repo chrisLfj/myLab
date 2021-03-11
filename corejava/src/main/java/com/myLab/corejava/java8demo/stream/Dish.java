@@ -52,7 +52,7 @@ public class Dish {
         }
     }
 
-    enum Type {
+    public enum Type {
         MEAT(1, "肉"),
         FISH(2, "鱼"),
         OTHER(3,"其它");
