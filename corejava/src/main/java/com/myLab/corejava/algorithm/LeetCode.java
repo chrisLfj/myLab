@@ -1,6 +1,7 @@
 package com.myLab.corejava.algorithm;
 
 import java.util.Stack;
+import java.util.Vector;
 
 /**
  * leetcode中常见问题的解法
@@ -43,13 +44,40 @@ public class LeetCode {
 
     /**
      * 滑动窗口
-     * 单调队列，双端队列，即每移动一次就会有一个出栈和入栈
+     * 1.单调队列，双端队列，即每移动一次就会有一个出栈和入栈
+     * 2.使用heap
      */
     public void sildWindow() {
 
     }
 
-    public static void main(String[] args) {
+    /**
+     * leetcode 40题，最小的k个数
+     * 1.sort    NlogN
+     * 2.用heap  Nlogk       自己实现一个heap，然后将数组元素放到heap中，然后循环取k个最小值，也可以使用java自带的priority queue就是heap
+     * 3.quick-sort 快速排序
+     * @param arr
+     * @param k
+     * @return
+     */
+    public int[] getLeastNumbers(int[] arr, int k) {
+        return null;
+    }
+
+    /**
+     * leetcode 347题，前k个高频元素，常考
+     * 步骤：
+     * 1.遍历数组，取得元素以及重复次数，使用map存放
+     * 2.将重复次数放入heap中
+     * @param nums
+     * @param k
+     * @return
+     */
+    public int[] topKFrequent(int[] nums, int k) {
+        return  null;
+    }
+
+  public static void main(String[] args) {
         LeetCode lc = new LeetCode();
         int[] heights = {2,1,2};
         System.out.println(lc.largestRectangleArea(heights));
