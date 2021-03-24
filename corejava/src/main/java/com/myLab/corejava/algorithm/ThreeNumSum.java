@@ -1,7 +1,5 @@
 package com.myLab.corejava.algorithm;
 
-import com.sun.xml.internal.bind.v2.model.core.Ref;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,12 +21,16 @@ public class ThreeNumSum {
         List<List<Integer>> result = new ArrayList<>();
         List<String> resultStrList = new ArrayList<>();
         for (int i = 0; i < nums.length - 2; i++) {
-            for (int j = i + 1; i < nums.length - 1; j++) {
-                for (int k = j + 1; i < nums.length; k++) {
-                    if (i + j == -k) {
-
-                        result.add(Arrays.asList(i,j,k));
-                        //由于题目要求三元数组不能重复，因此还要对result中的三元数组进行判重处理
+            for (int j = i + 1; j < nums.length - 1; j++) {
+                for (int k = j + 1; k < nums.length; k++) {
+                    if (nums[i] + nums[j] == -nums[k]) {
+                        int[] temp = {nums[i],nums[j],nums[k]};
+                        //由于题目要求三元数组不能重复，因此还要对result中的三元数组进行判重处理,这里先排序，然后再拼接字符串
+                        Arrays.sort(temp);
+                        if(resultStrList.contains("" + temp[0] + temp[1] + temp[2]))
+                            continue;
+                        result.add(Arrays.asList(nums[i],nums[j],nums[k]));
+                        resultStrList.add("" + temp[0] + temp[1] + temp[2]);
                     }
                 }
             }
