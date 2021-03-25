@@ -1,5 +1,6 @@
 package com.myLab.corejava.algorithm;
 
+import java.util.PriorityQueue;
 import java.util.Stack;
 import java.util.Vector;
 
@@ -21,11 +22,11 @@ public class LeetCode {
         orderStack.push(-1);
         int maxArea = 0;
         for (int i = 0; i < heights.length; i++) {
-            if(orderStack.peek() == -1)
+            if (orderStack.peek() == -1)
                 orderStack.push(i);
             else if (heights[i] > heights[orderStack.peek()]) {
                 orderStack.push(i);
-            }else{
+            } else {
                 while (orderStack.peek() != -1 && heights[orderStack.peek()] > heights[i]) {
                     int pop = -1;
                     pop = orderStack.pop();
@@ -56,12 +57,23 @@ public class LeetCode {
      * 1.sort    NlogN
      * 2.用heap  Nlogk       自己实现一个heap，然后将数组元素放到heap中，然后循环取k个最小值，也可以使用java自带的priority queue就是heap
      * 3.quick-sort 快速排序
+     *
      * @param arr
      * @param k
      * @return
      */
     public int[] getLeastNumbers(int[] arr, int k) {
-        return null;
+        //使用java自带的优先队列来实现，优先队列其实就是一个堆的数据结构，而且它是一个小顶堆，也就是父节点总是比其两个子节点小，正好满足找最小的K个值
+
+        PriorityQueue<Integer> priorityQueue = new PriorityQueue<>();
+        for (int i = 0; i < arr.length; i++) {
+            priorityQueue.add(arr[i]);
+        }
+        int res[] = new int[k];
+        for (int i = 0; i < k; i++) {
+            res[i] = priorityQueue.poll();
+        }
+        return res;
     }
 
     /**
@@ -69,17 +81,24 @@ public class LeetCode {
      * 步骤：
      * 1.遍历数组，取得元素以及重复次数，使用map存放
      * 2.将重复次数放入heap中
+     *
      * @param nums
      * @param k
      * @return
      */
     public int[] topKFrequent(int[] nums, int k) {
-        return  null;
+        return null;
     }
 
-  public static void main(String[] args) {
+    public static void main(String[] args) {
         LeetCode lc = new LeetCode();
-        int[] heights = {2,1,2};
+        int[] heights = {2, 1, 2};
         System.out.println(lc.largestRectangleArea(heights));
+
+        int[] nums = {1,2,1,4,5,3,65,55,66,65,65,65,2,2,2,55,55};
+        int[] res = lc.getLeastNumbers(nums, 5);
+        for (int i = 0; i < res.length; i++) {
+            System.out.println(res[i]);
+        }
     }
 }

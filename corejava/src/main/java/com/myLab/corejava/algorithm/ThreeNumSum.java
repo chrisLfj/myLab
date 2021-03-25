@@ -47,13 +47,13 @@ public class ThreeNumSum {
         Arrays.sort(nums);
         List<List<Integer>> res = new ArrayList<>();
         for(int k = 0; k < nums.length - 2; k++){
-            if(nums[k] > 0) break;
-            if(k > 0 && nums[k] == nums[k - 1]) continue;
+            if(nums[k] > 0) break; //如果遍历到的元素已经大于0了，由于数组经过了排序，因此后面的数值相加必定时大于0的，可以直接跳过，提升效率
+            if(k > 0 && nums[k] == nums[k - 1]) continue;//取出重复
             int i = k + 1, j = nums.length - 1;
             while(i < j){
                 int sum = nums[k] + nums[i] + nums[j];
                 if(sum < 0){
-                    while(i < j && nums[i] == nums[++i]);
+                    while(i < j && nums[i] == nums[++i]);//要注意这个代码的写法，很简洁清晰，下标i要往右移动，如果元素相等则继续移动，不等则停止移动
                 } else if (sum > 0) {
                     while(i < j && nums[j] == nums[--j]);
                 } else {
@@ -110,8 +110,19 @@ public class ThreeNumSum {
     }
 
     public static void main(String[] args) {
-        ThreeNumSum threeNumSum = new ThreeNumSum();
-        List<List<Integer>> result = threeNumSum.threeSumBetter(new int[]{-1, 0, 1, 2, -1, -4});
-        System.out.println(result);
+//        ThreeNumSum threeNumSum = new ThreeNumSum();
+//        List<List<Integer>> result = threeNumSum.threeSumBetter(new int[]{-1, 0, 1, 2, -1, -4});
+//        System.out.println(result);
+        //注意前++ 和 后++ 的区别，前++是先执行加1然后再赋值，而后++则是先赋值再执行加1；
+        int i = 8;
+        int j = i++; //等同于j = i; i = i + 1
+        int k = 8;
+        int g = ++k; //等同于k = k + 1; g = k
+        System.out.println("j=" + j);
+        System.out.println("i=" + i);
+
+        System.out.println("k=" + k);
+        System.out.println("g=" + g);
+
     }
 }
