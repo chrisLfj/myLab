@@ -90,6 +90,32 @@ public class LeetCode {
         return null;
     }
 
+    /**
+     * leetcode 70题，爬楼梯问题
+     * 这是个递归问题，找重复性，数学归纳法，n=1，n=2,n=3找重复性
+     * @return
+     */
+    public int climbStairs() {
+        return 0;
+    }
+
+    /**
+     * leetcode 22题，括号生成，思路有些晦涩，需要多看看视频
+     * 递归的思维步骤，每一层都可能添加右或者左括号
+     * @param args
+     */
+
+    /**
+     * leetcode 98题，判断给定二叉树为有效的
+     * 1.递归方法，中序遍历方法
+     * @param args
+     */
+
+    /**
+     * leetcode 104题，二叉树的最大深度
+     * @param args
+     */
+
     public static void main(String[] args) {
         LeetCode lc = new LeetCode();
         int[] heights = {2, 1, 2};
