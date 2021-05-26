@@ -9,3 +9,64 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/liufj?useUnicode=true&characterEncoding=utf-8&useSSL=false
     username: root
     password: root
+
+#指定log配置
+logging:
+  config: classpath:logback-spring.xml
+
+#mybatis plus配置，xml扫描路径以及别名扫描路径(可为该路径下的类在对应mapper xml中配置别名)
+# executor-type属性用于配置mybatis执行器，有三个选项
+# simple：默认值，为每个语句的执行创建一个新的预处理语句PreparedStatement
+# reuse: 该执行器会复用预处理语句
+# batch：该执行器会批量执行所有更新或者插入语句
+# type-enums-package：枚举类型扫描路径，会将该路径下的枚举类进行注入，让实体类字段能够简单快捷的使用枚举属性
+# type-handlers-package：TypeHandler扫描路径，SqlSessionFactoryBean会把该包下面的类注册为对应的TypeHandler，TypeHandler通常用于自定义类型转换
+# type-aliases-super-type：配合type-aliases-package使用，只会扫描该路径下以该类作为父类的与对象
+
+# configuration部分的配置大部分都为Mybatis原生支持的配置
+# map-underscore-to-camel-case，是否开启驼峰命名规则映射，默认为true，数据库列明A_COLUMN --- java属性名aClumn
+# default-enum-type-handler，配置默认统一枚举处理器
+# auto-mapping-behavior，配置mybatis自动映射策略，是指如何自动映射数据库表字段与对象的属性，分三种选项：NONE，不启用自动映射；PARTIAL(默认)，只对非嵌套的resultMap进行自动映射；FULL，对所有的resultMap都自动映射
+# local-cache-scope，Mybatis一级缓存，默认为session，及同一个session相同查询语句不会再次查询数据库；STATEMENT，关闭一级缓存
+# cache-enabled，开启Mybatis二级缓存，默认为true
+
+# global-config，负责配置mybatis plus的全局配置，一般情况下该部分无需特殊配置，使用默认值即可满足大部分需求
+# super-mapper-class，制定通用Mapper父类，使用默认值即可
+# banner，是否日志输出mybatis plus的LOGO
+# enable-sql-runner，是否初始化SqlRunner
+# sqlInjector，无需配置，starter下可以用@bean注入sql
+# meta-object-handler，元对象字段填充控制器，无需配置，starter下支持@bean注入
+# identifier-generator，配置id生成器类，无需配置，starter下支持@bean注入
+
+# global-config下的db-config配置
+# id-type，设置全局主键类型，默认为assign_id，分布式全局唯一id，由mybatis plus默认主键生成其使用雪花算法生成主键
+#   id-type设置成auto则需要配合打开数据库的自增主键功能，由数据库帮忙生成主键
+#   id-type设置成UUID则需要主键设置成字符型，由mybatis plus默认主键生成器生成去掉-的uuid作为主键
+#   id-type设置成input则表示需要使用自定义的主键生成器来生成主键
+# table-prefix，设置全局表名前缀，在进行数据库操作时会自动为表名添加前缀
+# schema，数据库实例schema
+# key-generator，表主键生成器，starter下支持@bean注入
+# logic-delete-field，logic-delete-value，logic-not-delete-value这三个配置配合使用
+# logic-delete-field，设置全局逻辑删除字段名(对应数据库属性)
+# logic-delete-value，逻辑已删除值，默认为1
+# logic-not-delete-value，逻辑未删除值，默认为0
+# insert-strategy，字段验证策略，在insert的时候进行字段验证，默认为NOT NULL
+# update-strategy，字段验证策略，在update的时候进行字段验证，默认为NOT NULL
+# select-strategy，字段验证策略，在select的时候进行字段验证，默认为NOT NULL
+
+mybatis-plus:
+  mapper-locations: classpath:com/mylab/mybatisplus/quickstart/mapper/**/*.xml
+  type-aliases-package: com.mylab.mybatisplus.quickstart.entity
+  #mybatis执行器设置为batch，可以支持批量缓存insert和update语句，统一执行，提高性能，但是副作用是无法获取update和delete返回的行数，返回数值-2147482646
+  executor-type: batch
+  type-enums-package: com.mylab.mybatisplus.quickstart.entity.enums
+  global-config:
+    db-config:
+      logic-delete-field: isdelete
+      logic-not-delete-value: 0
+      logic-delete-value: 1
+      id-type: auto
+
+
+
+

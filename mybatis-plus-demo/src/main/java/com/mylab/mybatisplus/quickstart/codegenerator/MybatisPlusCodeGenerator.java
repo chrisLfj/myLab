@@ -115,13 +115,13 @@ public class MybatisPlusCodeGenerator {
         StrategyConfig strategy = new StrategyConfig();
         strategy.setNaming(NamingStrategy.underline_to_camel);//配置驼峰命名方式
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
-        strategy.setSuperEntityClass("你自己的父类实体,没有就不用设置!");
-        strategy.setEntityLombokModel(true);
-        strategy.setRestControllerStyle(true);
+//        strategy.setSuperEntityClass("你自己的父类实体,没有就不用设置!");
+//        strategy.setEntityLombokModel(true);
+//        strategy.setRestControllerStyle(true);
         // 公共父类
-        strategy.setSuperEntityClass("");//配置实体类的父类
-        strategy.setSuperServiceClass("");//配置service类的父级接口，默认是IService，因为有些情况下还需要对service接口进行扩展和增强，这时就需要通过自定义service父级接口来实现
-        strategy.setSuperServiceImplClass("");//配置自定义service父级实现类，用于对service的方法进行增强，默认是ServiceImpl类
+        strategy.setSuperEntityClass("com.mylab.mybatisplus.quickstart.entity.AbstractEntity");//配置实体类的父类
+        strategy.setSuperServiceClass("com.mylab.mybatisplus.quickstart.dao.BaseDao");//配置service类的父级接口，默认是IService，因为有些情况下还需要对service接口进行扩展和增强，这时就需要通过自定义service父级接口来实现
+        strategy.setSuperServiceImplClass("com.mylab.mybatisplus.quickstart.dao.impl.AbstractDaoImpl");//配置自定义service父级实现类，用于对service的方法进行增强，默认是ServiceImpl类
 //        strategy.setSuperControllerClass("你自己的父类控制器,没有就不用设置!");
 //        strategy.setRestControllerStyle(true);
         // 写于父类中的公共字段，这个配置需要配合setSuperEntityClass使用，数据库表设计是会有一些公共字段每个表中都有，比如id，create_time,update_time等
@@ -139,7 +139,7 @@ public class MybatisPlusCodeGenerator {
         List<TableFill> tableFillList = new ArrayList<>();//设置自动填充属性，例如乐观锁字段需要在创建时自动填充为0
         TableFill version = new TableFill("version", FieldFill.INSERT);
         TableFill createTime = new TableFill("create_time", FieldFill.INSERT);
-        TableFill updateTime = new TableFill("update_time等", FieldFill.INSERT_UPDATE);
+        TableFill updateTime = new TableFill("update_time", FieldFill.INSERT_UPDATE);
         tableFillList.add(version);
         tableFillList.add(createTime);
         tableFillList.add(updateTime);

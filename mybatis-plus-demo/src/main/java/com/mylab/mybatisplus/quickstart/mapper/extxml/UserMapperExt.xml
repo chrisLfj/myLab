@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mylab.mybatisplus.quickstart.mapper.UserMapper">
+
+    <!-- 自定义扩展xml文件，有很多场景下mybatis plus提供的crud方法无法满足灵活的业务需求，例如需要join查询，嵌套子查询等等复杂语句时
+    ，就可以通过扩展xml文件来实现，mybatis是通过扫描指定目录下的xml文件，并且解析这些xml文件，将其中的配置信息解析成对应的接口实现，
+    然后程序中通过调用这些接口方法来实现对数据库的访问，解析出来的内容归属于namespace，这个namespace一般默认情况下就是对应的接口类路径(当然这个namespace也可以自己灵活指定，这里不展开讲)，
+    如果两个xml文件的namespace都一样，也会将这两个文件中的所有信息都解析到这一个namespace之中，同时这两个xml文件的配置信息还可以继承，
+    但是配置过的方法不能重复，否则会报错，利用这样的机制我们完全可以自定义一个扩展xml文件UserMapperExt.xml，它用于扩展UserMapper.xml
+    的能力，同时又能继承UserMapper.xml中的一些配置，例如resultMap配置，sql配置等等而不需要再写一遍-->
+
+    <!--
+    <select id="selectCustomize" resultMap="BaseResultMap" parameterType="java.util.Map">
+        写对应的sql语句
+    </select>
+    -->
+</mapper>
