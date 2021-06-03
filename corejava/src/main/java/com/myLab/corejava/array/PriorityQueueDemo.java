@@ -10,6 +10,28 @@ import java.util.PriorityQueue;
  * PriorityQueue默认是小顶堆，即最小元素在堆顶
  */
 public class PriorityQueueDemo {
+
+    public static class Element implements Comparable<Element>{
+        public int getValue() {
+            return value;
+        }
+
+        int value;
+
+        public Element(int value) {
+            this.value = value;
+        }
+
+        @Override
+        public int compareTo(Element o) {
+            return this.value - o.value;
+        }
+
+        public String toString() {
+            return "" + value;
+        }
+    }
+
     public static void main(String[] args) {
         Element e85 = new Element(85);
         Element e90 = new Element(90);
@@ -34,25 +56,6 @@ public class PriorityQueueDemo {
         pq.add(e40);
         Arrays.stream(pq.toArray()).forEach(t -> System.out.println(t.toString()));
     }
+
 }
 
-class Element implements Comparable<Element>{
-    public int getValue() {
-        return value;
-    }
-
-    int value;
-
-    public Element(int value) {
-        this.value = value;
-    }
-
-    @Override
-    public int compareTo(Element o) {
-        return this.value - o.value;
-    }
-
-    public String toString() {
-        return "" + value;
-    }
-}
