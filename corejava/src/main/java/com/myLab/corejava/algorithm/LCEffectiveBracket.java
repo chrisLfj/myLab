@@ -5,7 +5,7 @@ import java.util.Stack;
 /**
  * leetcode:有效的括号  第20题
  */
-public class EffectiveBracket {
+public class LCEffectiveBracket {
     /**
      * 典型思路是用栈来解决
      * @param s

@@ -5,7 +5,7 @@ package com.myLab.corejava.algorithm;
  * 给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序
  * 必须在原数组上操作，不能拷贝额外的数组。尽量减少操作次数。
  */
-public class MoveZeros {
+public class LCMoveZeros {
     /**
      * 解题思路：
      * 1.最常想到的一种思路是，遍历数组，只要发现不为0的元素就将其按顺序放到一个新的数组中，然后在后面补0即可
@@ -30,8 +30,8 @@ public class MoveZeros {
 
     public static void main(String[] args) {
         int[] nums = {0, 1, 0, 3, 12};
-        MoveZeros moveZeros = new MoveZeros();
-        moveZeros.moveZeros(nums);
+        LCMoveZeros LCMoveZeros = new LCMoveZeros();
+        LCMoveZeros.moveZeros(nums);
         System.out.println(nums);
     }
 }

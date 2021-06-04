@@ -11,7 +11,7 @@ import java.util.List;
  * 注意：答案中不可以包含重复的三元组。
  *
  */
-public class ThreeNumSum {
+public class LCThreeNumSum {
     /**
      * 暴力求解法：a + b + c =0转换为求a+b=-c,与两数求和类似，这里使用三层循环，时间复杂度为o(n^3)
      * @param nums
@@ -110,7 +110,7 @@ public class ThreeNumSum {
     }
 
     public static void main(String[] args) {
-//        ThreeNumSum threeNumSum = new ThreeNumSum();
+//        LCThreeNumSum threeNumSum = new LCThreeNumSum();
 //        List<List<Integer>> result = threeNumSum.threeSumBetter(new int[]{-1, 0, 1, 2, -1, -4});
 //        System.out.println(result);
         //注意前++ 和 后++ 的区别，前++是先执行加1然后再赋值，而后++则是先赋值再执行加1；

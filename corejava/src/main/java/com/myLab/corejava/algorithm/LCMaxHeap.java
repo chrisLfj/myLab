@@ -8,7 +8,7 @@ import java.util.Comparator;
 /**
  * 一个大顶堆的实现
  */
-public class MaxHeap<E> {
+public class LCMaxHeap<E> {
     //数组的默认容量
     private static final int DEFAULT_INITIAL_CAPACITY = 11;
     //对象数组，保存元素
@@ -18,11 +18,11 @@ public class MaxHeap<E> {
     //数组的实际大小
     private int size;
 
-    public MaxHeap(Comparator<? super E> comparator) {
+    public LCMaxHeap(Comparator<? super E> comparator) {
         this(comparator, DEFAULT_INITIAL_CAPACITY);
     }
 
-    public MaxHeap(Comparator<? super E> comparator, int capacity) {
+    public LCMaxHeap(Comparator<? super E> comparator, int capacity) {
         if (capacity < 1) {
             throw new IllegalArgumentException();
         }
@@ -152,7 +152,7 @@ public class MaxHeap<E> {
         System.out.println(size >> 1);
         System.out.println(size >>> 1);
 
-        MaxHeap<PriorityQueueDemo.Element> intHeap = new MaxHeap<>((t, o) -> t.compareTo(o));
+        LCMaxHeap<PriorityQueueDemo.Element> intHeap = new LCMaxHeap<>((t, o) -> t.compareTo(o));
         PriorityQueueDemo.Element e85 = new PriorityQueueDemo.Element(85);
         PriorityQueueDemo.Element e90 = new PriorityQueueDemo.Element(90);
         PriorityQueueDemo.Element e60 = new PriorityQueueDemo.Element(60);

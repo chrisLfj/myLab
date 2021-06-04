@@ -7,7 +7,7 @@ package com.myLab.corejava.algorithm;
  *
  * 说明：你不能倾斜容器。
  */
-public class MaxArea {
+public class LCMaxArea {
     /**
      * 解题思路：
      * 1.粗暴方法是，循环套循环，即先用第一个元素分别跟其它n-1个元素求面积，然后再用第二个元素跟其它n-2个元素求面积
@@ -33,7 +33,7 @@ public class MaxArea {
 
     public static void main(String[] args) {
         int[] height = {1, 8, 6, 2, 5, 4, 8, 3, 7};
-        MaxArea maxArea = new MaxArea();
-        System.out.println(maxArea.maxArea(height));
+        LCMaxArea LCMaxArea = new LCMaxArea();
+        System.out.println(LCMaxArea.maxArea(height));
     }
 }
