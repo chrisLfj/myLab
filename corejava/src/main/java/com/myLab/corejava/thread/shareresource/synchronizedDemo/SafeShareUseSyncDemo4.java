@@ -46,7 +46,7 @@ public class SafeShareUseSyncDemo4 implements Runnable{
 
         new Thread(us1, "Thread" + 1).start();
         new Thread(us2, "Thread" + 2).start();
-        new Thread(us1, "Thread" + 3).start();
+        new Thread(us3, "Thread" + 3).start();
     }
 }
 /*
