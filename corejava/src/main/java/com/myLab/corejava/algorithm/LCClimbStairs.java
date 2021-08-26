@@ -35,24 +35,36 @@ public class LCClimbStairs {
     }
     //优化一下算法，保存中间数据，想到要保存计算过的结果，如果结果已经计算则直接从map中获取返回即可，但是这个代码写的还是不好
     //时间复杂度还是不理想，主要原因是1.递归调用方法，压栈出栈频繁。2.每次都去map中去查找key，这个遍历算法的时间复杂度O(n)
+
     public static int climbStairsBetter(int n) {
         Map<Integer, Integer> tempMap = new HashMap<>();
-        return getClimbStairsWays(n, tempMap);
+        //这里map作为方法变量，如果想要在多次调用本方法时提升效率，可以将其作为共享类变量，存放楼梯数和爬楼梯方法个数的历史数据，这样在多次可以先看看能不能从map中获取，获取不到的话再计算
+        //map中的数据先要打个底
+        tempMap.put(1, 1);
+        tempMap.put(2, 2);
+        if (n <= 0) {
+            return -1;
+        }
+        if (n == 1) {
+            return 1;
+        }
+        if (n == 2) {
+            return 2;
+        }
+        getClimbStairsWays(n, tempMap);
+        return tempMap.get(n - 1) + tempMap.get(n - 2);
     }
 
-    private static int getClimbStairsWays(int n, Map<Integer, Integer> tempMap) {
-        if (tempMap.containsKey(n)) {
-            return tempMap.get(n);
-        } else if (n == 1) {
-            tempMap.put(1, 1);
-            return 1;
-        } else if (n == 2) {
-            tempMap.put(2, 2);
-            return 2;
-        } else {
-            int result = climbStairs(n - 1) + climbStairs(n - 2);
-            tempMap.put(n, result);
-            return result;
+    private static void getClimbStairsWays(int n, Map<Integer, Integer> tempMap) {
+        int ways = 0;
+        for (int i = 3; i < n + 1; i++) {
+            ways = tempMap.get(i - 1) + tempMap.get(i - 2);//因为之前有1和2的打底数据，所以i=3时，可以直接从map中取出1和2的值
+            tempMap.put(i, ways);//保存中间数据，确保后面每个i的值，都可以从map中取出i-1和i-2，时间复杂度可以达到O(2n)
         }
     }
+
+    public static void main(String[] args) {
+        System.out.println(LCClimbStairs.climbStairsBetter(5));
+    }
+
 }
