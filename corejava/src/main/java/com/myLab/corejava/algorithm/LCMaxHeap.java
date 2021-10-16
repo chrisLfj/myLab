@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 /**
- * 一个大顶堆的实现
+ * 一个大顶堆的实现，大顶堆依赖平衡二叉树实现，它的特点是父节点比子节点大，每棵子树的父节点都是该子树所有节点中最大的
  */
 public class LCMaxHeap<E> {
     //数组的默认容量

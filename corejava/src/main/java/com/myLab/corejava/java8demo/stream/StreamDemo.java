@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 public class StreamDemo {
     public static void main(String[] args) {
         List<Dish> menu = Arrays.asList(
+                new Dish("potato", true, 100, Dish.Type.OTHER),
                 new Dish("pork", false, 800, Dish.Type.MEAT),
                 new Dish("beef", false, 700, Dish.Type.MEAT),
                 new Dish("chicken", false, 400, Dish.Type.MEAT),
@@ -25,9 +26,24 @@ public class StreamDemo {
                     System.out.println("mapping " + d.getName());
                     return d.getName();
                 })
+//                .skip(2)//跳过前两个卡路里大于300的元素，这两个元素不会放到最终的数组中，但是这两个元素依然会进入filtering和map的逻辑中
                 .limit(3)//截短流，limit也可以用在set上，这时它不会以任何顺序排列
                 .collect(Collectors.toList());//java8实战p102,每个中间操作都打印元素信息，从中可以看看流是如何处理元素的
         System.out.println(threeHighCaloricDishName);
+        /*
+        卡路里大于300的过滤结果如下：
+        filtering potato
+        filtering pork
+        mapping pork
+        filtering beef
+        mapping beef
+        filtering chicken
+        mapping chicken
+        [pork, beef, chicken]
+        从结果来分析，流是按照数组顺序依次处理里面的元素，每个元素都会经过filtering，map，limit这三个组成的处理链条，
+        我们可以发现，potato在经过filtering之后并没有进入map的逻辑中，那是因为它不符合过滤条件(卡路里小于300)
+        还可以发现，并不是所有大于300卡路里的元素都处理，因为由limit(3)的存在，它实现了一个短路的逻辑。
+         */
 
         List<Integer> numbers = Arrays.asList(1, 2, 1, 3, 3, 2, 4);
         numbers.stream()
