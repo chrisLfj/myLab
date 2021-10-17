@@ -39,7 +39,7 @@ public class LCThreeNumSum {
     }
 
     /**
-     * 排序+双指针两面夹逼的方式，注意去重的逻辑，这个方法代码实现更优美，并且避免了无畏的遍历
+     * 排序+双指针两面夹逼的方式，注意去重的逻辑，这个方法代码实现更优美，并且避免了无谓的遍历
      * @param nums
      * @return
      */
@@ -47,7 +47,7 @@ public class LCThreeNumSum {
         Arrays.sort(nums);
         List<List<Integer>> res = new ArrayList<>();
         for(int k = 0; k < nums.length - 2; k++){
-            if(nums[k] > 0) break; //如果遍历到的元素已经大于0了，由于数组经过了排序，因此后面的数值相加必定时大于0的，可以直接跳过，提升效率
+            if(nums[k] > 0) break; //如果遍历到的元素已经大于0了，由于数组经过了排序，因此后面的数值相加必定大于0的，可以直接跳过，提升效率
             if(k > 0 && nums[k] == nums[k - 1]) continue;//取出重复
             int i = k + 1, j = nums.length - 1;
             while(i < j){

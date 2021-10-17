@@ -22,6 +22,7 @@ public class LCRotatedSortedSearch {
             if (nums[mid] == target) {
                 return mid;
             }
+            //旋转有序数组从中间一分为二后，会有两种可能：低位有序或者高位有序，由于二分查找的前提是数组有序，因此我们先试图找出有序部分
             //每次循环进入时候，总是试图找到有序的那一部分数组，尝试在这部分数组中查找target，并通过移动left和right不断的缩小搜索范围
             if (nums[0] <= nums[mid]) {
                 if (nums[0] <= target && target < nums[mid]) {
@@ -42,5 +43,26 @@ public class LCRotatedSortedSearch {
             }
         }
         return -1;
+    }
+    public int test(int[] nums, int target) {
+        int left = 0;
+        int right = nums.length - 1;
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            if (mid == target) {
+                return mid;
+            }
+            if (mid > target) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return -1;
+    }
+
+    public static void main(String[] args) {
+        LCRotatedSortedSearch lcr = new LCRotatedSortedSearch();
+        System.out.println(lcr.test(new int[]{0, 1, 2, 3, 4, 7},3));
     }
 }
