@@ -5,6 +5,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class ReentrantLockDemo implements Runnable{
     private static int count;
     private static final ReentrantLock lock = new ReentrantLock();//将static去掉再试试
+//    private final ReentrantLock lock = new ReentrantLock();
 //    private static final ReentrantLock lock = new ReentrantLock(true);//创建可以实现公平锁的自旋锁
 
 

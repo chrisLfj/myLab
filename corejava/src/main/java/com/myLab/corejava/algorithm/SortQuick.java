@@ -1,5 +1,7 @@
 package com.myLab.corejava.algorithm;
 
+import java.util.Arrays;
+
 /**
  * 快速排序法，通过一次排序将待排记录分割成独立的两部分，其中一部分记录的关键字均比另一部分的关键字小，则可分别对这两部分记录继续进行排序，以达到整个序列有序。
  * 快速排序时间复杂度为O(nlogn)
@@ -10,7 +12,6 @@ package com.myLab.corejava.algorithm;
  */
 public class SortQuick {
     public void quickSort(int[] arr, int left, int right) {
-        int len = arr.length;
         int partitionIndex;
         if (left < right) {
             partitionIndex = partition(arr, left, right);
@@ -32,10 +33,30 @@ public class SortQuick {
         return index - 1;
     }
 
+    public int partitionTest(int[] arr, int left, int right) {
+        int pivot = left;
+        int index = pivot + 1;
+        for (int i = index; i <= right; i++) {
+            if (arr[i] < arr[pivot]) {
+                swap(arr, i, index);
+                index++;
+            }
+        }
+        swap(arr, pivot, index - 1);
+        return index - 1;
+    }
+
     private void swap(int[] arr, int i, int j) {
         int temp = arr[i];
         arr[i] = arr[j];
         arr[j] = temp;
         Integer[] array =new Integer[10];
+    }
+
+    public static void main(String[] args) {
+        int[] arrays = new int[]{4, 56, 32, 6, 7, 89, 100, 23};
+        Arrays.sort(arrays);//jdk自带的数组排序方法，其实现原理可以关注一下，也是快排？
+        Arrays.stream(arrays).forEach(System.out::println);
+
     }
 }
