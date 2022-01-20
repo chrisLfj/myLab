@@ -16,7 +16,8 @@ public class LCInvertTree {
         if (null == node.left && null == node.right) {
             return;
         }
-        //process 左右子节点互换
+        //process
+        //二叉树的翻转，左右子节点互换，到达新的一层时先把左右节点互换掉，然后再继续向下递归
         TreeNode temp = node.left;
         node.left = node.right;
         node.right = temp;

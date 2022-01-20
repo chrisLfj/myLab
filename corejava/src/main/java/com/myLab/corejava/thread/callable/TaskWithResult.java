@@ -16,6 +16,7 @@ public class TaskWithResult implements Callable<String> {
     @Override
     public String call() throws Exception {
         if(id % 2 == 0){
+            System.out.println("sleep for 1s");
             Thread.sleep(1000);
         }
         System.out.println(Thread.currentThread().getName() + "is touched, id: " + id);

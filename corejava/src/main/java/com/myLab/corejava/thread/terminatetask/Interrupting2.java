@@ -42,7 +42,7 @@ public class Interrupting2 {
     public static void main(String[] args) throws InterruptedException {
         Thread t = new Thread(new Blocked2());//这里main线程实例化Blocked2，它会初始化其blocked属性，进而获得锁
         t.start();//另起一个线程，运行run方法时会尝试去获得blocked的锁，引起阻塞
-        TimeUnit.SECONDS.sleep(1);
+        TimeUnit.SECONDS.sleep(10);
         System.out.println("Issuing t.interrupt()");
         t.interrupt();
     }
