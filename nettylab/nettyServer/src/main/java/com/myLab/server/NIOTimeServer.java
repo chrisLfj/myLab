@@ -70,9 +70,11 @@ public class NIOTimeServer implements Runnable{
             //处理链接事件
             if (key.isAcceptable()) {
                 ServerSocketChannel ssc = (ServerSocketChannel) key.channel();
-                SocketChannel socketChannel = ssc.accept();//三次握手建立连接，返回socketchannel
-                socketChannel.configureBlocking(false);//将socketchannel设置为feizus
-                socketChannel.register(selector, SelectionKey.OP_READ);//将socketchannel注册到selector中监听read事件
+                SocketChannel socketChannel = ssc.accept();//三次握手建立连接，建立物理链路，返回socketchannel
+                if (null != socketChannel) {
+                    socketChannel.configureBlocking(false);//将socketchannel设置为非阻塞
+                    socketChannel.register(selector, SelectionKey.OP_READ);//将socketchannel注册到selector中监听read事件
+                }
             }
             //处理可读事件
             if (key.isReadable()) {
@@ -104,5 +106,14 @@ public class NIOTimeServer implements Runnable{
             writeBuffer.flip();
             socketChannel.write(writeBuffer);
         }
+    }
+
+    public static void main(String[] args) {
+        int port = 9001;
+        if (args != null && args.length > 0) {
+            port = Integer.valueOf(args[0]);
+        }
+        new Thread(new NIOTimeServer(port), "Thread-NIOTimeServer").start();
+
     }
 }
