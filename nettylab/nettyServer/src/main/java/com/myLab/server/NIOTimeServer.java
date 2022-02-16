@@ -19,7 +19,7 @@ public class NIOTimeServer implements Runnable{
     public NIOTimeServer(int port) {
         try {
             selector = Selector.open();//打开多路复用器实例
-            //1.创建ServerSocketChannel 2.设置为非阻塞模式 3.绑定端口，设置最大连接数 3.将该channel注册到selector中并且与网络连接请求事件accept进行绑定
+            //1.创建ServerSocketChannel 2.设置为非阻塞模式 3.绑定端口，设置最大连接数 4.将该channel注册到selector中并且与网络连接请求事件accept进行绑定
             serverSocketChannel = ServerSocketChannel.open();
             serverSocketChannel.configureBlocking(false);
             serverSocketChannel.socket().bind(new InetSocketAddress(port), 1024);
@@ -71,6 +71,7 @@ public class NIOTimeServer implements Runnable{
             if (key.isAcceptable()) {
                 ServerSocketChannel ssc = (ServerSocketChannel) key.channel();
                 SocketChannel socketChannel = ssc.accept();//三次握手建立连接，建立物理链路，返回socketchannel
+                //调试的时候发现一个连接已经建立成功，但是马上又一个acceptable事件过来了，还是走到了这个代码分支中，而且socketchannel=null,这里加一个非空判断是为了防止下面代码抛出空指针异常
                 if (null != socketChannel) {
                     socketChannel.configureBlocking(false);//将socketchannel设置为非阻塞
                     socketChannel.register(selector, SelectionKey.OP_READ);//将socketchannel注册到selector中监听read事件

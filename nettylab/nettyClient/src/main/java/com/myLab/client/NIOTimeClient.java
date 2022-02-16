@@ -1,7 +1,5 @@
 package com.myLab.client;
 
-import io.netty.buffer.ByteBuf;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -52,7 +50,7 @@ public class NIOTimeClient implements Runnable {
                 SelectionKey key = null;
                 while (it.hasNext()) {
                     key = it.next();
-                    it.remove();
+//                    it.remove();
                     handleInput(key);
                 }
             } catch (IOException e) {

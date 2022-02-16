@@ -12,6 +12,7 @@ public class CachedThreadPool  {
         //如果线程超过6秒没有被使用，它会被终止并从池中删除
         //SE5和6对线程的创建和执行设计了很多的Executor，从而简化了并发编程
         ExecutorService exec = Executors.newCachedThreadPool();
+        Executors.newFixedThreadPool(5);
         for(int i = 0; i < 5; i++){
             exec.execute(new LiftOff());
         }

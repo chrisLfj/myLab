@@ -4,7 +4,7 @@ import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 
 /**
- * ByteBuffer常被用于NIO中的数据缓冲区，NIO是面向buffer来读写数据的，可以使用它在jvm堆内存中或则操作系统的内存中分配一块内存空间存放byte数组
+ * ByteBuffer常被用于NIO中的数据缓冲区，NIO是面向buffer来读写数据的，可以使用它在jvm堆内存中或者操作系统的内存中分配一块内存空间存放byte数组
  * 这个byte数组作为ByteBufer的一个成员变量存在。ByteBuffer在使用时常被定义成static final静态常量，在声明时即初始化，这样做的好处是将其作为一个
  * 缓存资源重复利用，例如在使用NIO读取一个大文件时，我们每5000个字节一次循环从流中读取数据，如果每次循环都申请一个5000字节的ByteBuffer缓存的话，
  * 那jvm对内存可能很快就被占满，进而触发gc，会严重影响程序性能。因此我们将ByteBuffer作为静态常量，初始化5000个字节，循环一次读取5000个字节存入其中，
@@ -14,7 +14,7 @@ import java.nio.charset.StandardCharsets;
  * 在创建出一个ByteBuffer后，这几个值的初始状态是：position=offset，offset=0(没有设别指定的话，默认为0)，limit=offset+length，capacity=数组长度，mark=-1
  * position代表当前可以读写的数组下标，每次读写之后position都会+1
  * offset代表偏移量，如果创建ByteBuffer时传入的offset>0，那position=offset，表示初始从偏移量位置开始读写
- * limit则代表可以读写的限制下标，如果position超过limit则会抛出一场，在创建ByteBuffer时，如果limit>数组长度，也会抛出异常
+ * limit则代表可以读写的限制下标，如果position超过limit则会抛出异常，在创建ByteBuffer时，如果limit>数组长度，也会抛出异常
  * mark标识，调用mark()方法打标，mark=position，记录下当前position位置，这样可以在后续过程中调用reset方法让position回到mark位置
  */
 public class ByteBufferDemo {
