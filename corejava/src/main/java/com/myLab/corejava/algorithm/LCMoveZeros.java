@@ -29,7 +29,8 @@ public class LCMoveZeros {
     }
 
     public static void main(String[] args) {
-        int[] nums = {0, 1, 0, 3, 12};
+//        int[] nums = {0, 1, 0, 3, 12};
+        int[] nums = {2, 1, 0, 3, 12};
         LCMoveZeros LCMoveZeros = new LCMoveZeros();
         LCMoveZeros.moveZeros(nums);
         System.out.println(nums);
